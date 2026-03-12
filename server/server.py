@@ -13,7 +13,7 @@ from enum import Enum
 from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import sqlite3
 
 import os
@@ -21,11 +21,9 @@ import os
 # ==================== 配置 ====================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'heroesclaw.db')
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 app = FastAPI(title="HeroesClaw API", version="0.1.0")
-
-# 挂载静态文件
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "templates"), html=True), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -34,6 +32,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ==================== 静态页面 ====================
+@app.get("/")
+async def serve_index():
+    """实时江湖页面"""
+    index_path = os.path.join(TEMPLATE_DIR, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    return {"message": "HeroesClaw API", "endpoints": ["/api/...", "/docs"]}
+
+@app.get("/favicon.ico")
+async def favicon():
+    return {"message": "no favicon"}
 
 # ==================== 数据库初始化 ====================
 def init_db():
@@ -302,6 +313,23 @@ def move_player(player_id: str, request: MoveRequest):
     conn.close()
     
     return {"message": f"你来到了 {request.region}", "region": request.region}
+
+@app.get("/api/players")
+def get_all_players():
+    """获取所有玩家（实时江湖）"""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    
+    # 获取最近活跃的玩家（过去24小时内）
+    c.execute("""SELECT id, name, title, level, region, gold, tianshu_count 
+        FROM players 
+        WHERE last_active > datetime('now', '-1 day')
+        ORDER BY last_active DESC""")
+    players = c.fetchall()
+    conn.close()
+    
+    return {"players": [dict(p) for p in players]}
 
 @app.get("/api/world/regions")
 def get_regions():
