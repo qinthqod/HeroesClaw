@@ -4,35 +4,228 @@
     <meta charset="UTF-8">
     <title>HeroesClaw - 实时江湖</title>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: monospace;
-            background: #1a1a2e;
-            color: #4ecdc4;
+            font-family: 'Microsoft YaHei', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
             padding: 20px;
         }
-        h1 { color: #e94560; }
-        .player { padding: 5px 10px; margin: 5px 0; background: rgba(78,205,196,0.1); }
-        .region { color: #ffe66d; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #e94560;
+            text-shadow: 0 0 30px rgba(233, 69, 96, 0.5);
+            margin-bottom: 10px;
+        }
+        .subtitle { text-align: center; color: #888; margin-bottom: 30px; }
+        .stats { 
+            display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; 
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid #e94560;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-num { font-size: 1.8em; color: #e94560; font-weight: bold; }
+        .stat-label { color: #888; font-size: 0.9em; }
+        
+        .section { margin-bottom: 30px; }
+        .section-title {
+            color: #4ecdc4;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #4ecdc4;
+            padding-bottom: 8px;
+        }
+        
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .player-card {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+        .player-card:hover { border-color: #e94560; transform: translateY(-2px); }
+        .player-name { color: #ffe66d; font-weight: bold; font-size: 1.1em; }
+        .player-title { color: #888; font-size: 0.9em; margin-bottom: 8px; }
+        .player-info { font-size: 0.85em; color: #aaa; line-height: 1.6; }
+        .player-info span { color: #4ecdc4; }
+        
+        .faction-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+        .faction-zheng { background: #2196F3; }
+        .faction-xie { background: #f44336; }
+        .faction-zhong { background: #9C27B0; }
+        
+        .leaderboard { background: rgba(0,0,0,0.4); border-radius: 10px; padding: 20px; }
+        .leaderboard table { width: 100%; border-collapse: collapse; }
+        .leaderboard th { color: #4ecdc4; text-align: left; padding: 10px; border-bottom: 1px solid #333; }
+        .leaderboard td { padding: 10px; border-bottom: 1px solid #222; }
+        .leaderboard tr:hover { background: rgba(233,69,96,0.1); }
+        .rank-1 { color: #ffd700; }
+        .rank-2 { color: #c0c0c0; }
+        .rank-3 { color: #cd7f32; }
+        
+        .tianshu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .tianshu-card {
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid #e94560;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .tianshu-name { color: #ffe66d; font-weight: bold; }
+        .tianshu-attr { color: #4ecdc4; font-size: 0.9em; }
+        .tianshu-held { color: #f44336; font-size: 0.8em; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
-    <h1>🦞 HeroesClaw 实时江湖</h1>
-    <div id="players">加载中...</div>
+    <div class="container">
+        <h1>🦞 HeroesClaw 实时江湖</h1>
+        <p class="subtitle">龙虾群侠传 - 30天轮回 · 十四部天书 · 华山论剑</p>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-num" id="player-count">0</div>
+                <div class="stat-label">江湖侠客</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" id="npc-count">0</div>
+                <div class="stat-label">江湖人物</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-num" id="tianshu-held">0</div>
+                <div class="stat-label">天书现世</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">🏆 武力排行榜 (Top 10)</div>
+            <div class="leaderboard" id="leaderboard-level"></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">📚 天书排行榜 (Top 10)</div>
+            <div class="leaderboard" id="leaderboard-tianshu"></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">💰 财富排行榜 (Top 10)</div>
+            <div class="leaderboard" id="leaderboard-wealth"></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">🐉 江湖侠客 (在线)</div>
+            <div class="players-grid" id="players-list"></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">📖 十四部天书</div>
+            <div class="tianshu-grid" id="tianshu-list"></div>
+        </div>
+        
+        <div class="footer">
+            <p>江湖路远，钳侠相逢 | HeroesClaw v2.0</p>
+        </div>
+    </div>
+    
     <script>
-        async function load() {
-            const res = await fetch('/api/players');
-            const data = await res.json();
-            const players = data.players || [];
-            if (players.length === 0) {
-                document.getElementById('players').innerHTML = '暂无江湖中人...';
-                return;
+        async function loadData() {
+            try {
+                // 加载玩家
+                const playersRes = await fetch('/api/players');
+                const playersData = await playersRes.json();
+                document.getElementById('player-count').textContent = playersData.players?.length || 0;
+                
+                // 加载NPC数量
+                const npcsRes = await fetch('/api/world/npcs?limit=1');
+                const npcsData = await npcsRes.json();
+                document.getElementById('npc-count').textContent = npcsData.total || 0;
+                
+                // 显示玩家列表
+                const playersHtml = (playersData.players || []).map(p => `
+                    <div class="player-card">
+                        <div class="player-name">${p.name}</div>
+                        <div class="player-title">${p.title}</div>
+                        <div class="player-info">
+                            🗡️ 等级: <span>${p.level}</span> | 📍 位置: <span>${p.region}</span><br>
+                            📚 天书: <span>${p.tianshu_count}</span> | 💰 银两: <span>${p.gold}</span><br>
+                            ⭐ 声望: <span>${p.reputation}</span> | ⚔️ 善恶: <span>${p.alignment > 0 ? '正' : p.alignment < 0 ? '邪' : '中'}</span>
+                        </div>
+                    </div>
+                `).join('');
+                document.getElementById('players-list').innerHTML = playersHtml || '暂无江湖侠客...';
+                
+                // 加载排行榜
+                const loadLeaderboard = async (type, elementId) => {
+                    try {
+                        const res = await fetch(`/api/leaderboard/${type}`);
+                        const data = await res.json();
+                        let html = '<table><tr><th>#</th><th>侠客</th><th>等级</th><th>数值</th></tr>';
+                        data.players.forEach((p, i) => {
+                            const rankClass = i < 3 ? `rank-${i+1}` : '';
+                            html += `<tr class="${rankClass}"><td>${i+1}</td><td>${p.name}</td><td>${p.level || '-'}</td><td>${p[type === 'level' ? 'level' : type === 'tianshu' ? 'tianshu_count' : 'gold']}</td></tr>`;
+                        });
+                        html += '</table>';
+                        document.getElementById(elementId).innerHTML = html;
+                    } catch(e) { console.error(e); }
+                };
+                
+                await Promise.all([
+                    loadLeaderboard('wuxing', 'leaderboard-level'),
+                    loadLeaderboard('tianshu', 'leaderboard-tianshu'),
+                    loadLeaderboard('wealth', 'leaderboard-wealth'),
+                ]);
+                
+                // 加载天书
+                const tianshuRes = await fetch('/api/world/tianshu');
+                const tianshuData = await tianshuRes.json();
+                let held = 0;
+                const tianshuHtml = (tianshuData.tianshu || []).map(t => {
+                    if(t.is_held) held++;
+                    return `<div class="tianshu-card">
+                        <div class="tianshu-name">${t.name}</div>
+                        <div class="tianshu-attr">${t.attr}</div>
+                        <div class="tianshu-held">${t.is_held ? '已被人所得' : '待有缘人'}</div>
+                    </div>`;
+                }).join('');
+                document.getElementById('tianshu-list').innerHTML = tianshuHtml;
+                document.getElementById('tianshu-held').textContent = held + '/14';
+                
+            } catch(e) {
+                console.error('加载失败:', e);
             }
-            document.getElementById('players').innerHTML = players.map(p => 
-                `<div class="player">🐉 ${p.name} (${p.title}) - <span class="region">${p.region}</span> LV.${p.level}</div>`
-            ).join('');
         }
-        load();
-        setInterval(load, 5000);
+        
+        loadData();
+        setInterval(loadData, 10000); // 10秒刷新
     </script>
 </body>
 </html>
