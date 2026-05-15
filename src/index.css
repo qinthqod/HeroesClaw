@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=Ma+Shan+Zheng&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -11,105 +11,103 @@
 }
 
 body {
-  font-family: 'Ma Shan Zheng', 'STKaiti', 'KaiTi', serif;
-  background: linear-gradient(180deg, #0a0a0f 0%, #0f0f1a 50%, #0a0a0f 100%);
+  font-family: 'ZCOOL XiaoWei', 'STKaiti', 'KaiTi', serif;
+  background: linear-gradient(180deg, #faf6f0 0%, #f5efe6 50%, #faf6f0 100%);
   min-height: 100vh;
-  color: #f0e6d2;
+  color: #2a2a2a;
   overflow-x: hidden;
 }
 
-.bg-ink-wash {
-  background: radial-gradient(ellipse at center, rgba(30, 30, 46, 0.85) 0%, rgba(10, 10, 15, 0.98) 100%);
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
 }
 
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+.ancient-panel {
+  background: linear-gradient(135deg, rgba(250, 246, 240, 0.95) 0%, rgba(245, 239, 230, 0.98) 100%);
+  border-radius: 0.5rem;
+  border: 2px solid #d4c9b8;
+  box-shadow: 0 4px 20px rgba(42, 42, 42, 0.15);
 }
 
-::-webkit-scrollbar-track {
-  background: rgba(42, 42, 58, 0.5);
+.ancient-panel-gold {
+  background: linear-gradient(145deg, rgba(250, 246, 240, 0.98) 0%, rgba(245, 239, 230, 0.99) 100%);
+  border-radius: 0.5rem;
+  border: 2px solid #c9a96e;
+  box-shadow: 0 0 30px rgba(201, 169, 110, 0.4);
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d4a84b 0%, #b8943d 100%);
-  border-radius: 2px;
+.ancient-panel-dark {
+  background: linear-gradient(135deg, rgba(245, 239, 230, 0.95) 0%, rgba(250, 246, 240, 0.98) 100%);
+  border-radius: 0.5rem;
+  border: 2px solid #b8a898;
+  box-shadow: 0 2px 10px rgba(42, 42, 42, 0.1);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #f5d56a 0%, #d4a84b 100%);
+.gold-text {
+  color: #c9a96e;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(201, 169, 110, 0.3);
 }
 
-@layer components {
-  .wuxia-panel {
-    @apply bg-wuxia-panel/80 backdrop-blur-sm border border-wuxia-border rounded-lg;
-    background: linear-gradient(145deg, rgba(18, 18, 26, 0.9) 0%, rgba(26, 26, 37, 0.8) 100%);
-  }
+.gold-gradient-text {
+  font-weight: bold;
+  background: linear-gradient(135deg, #c9a96e 0%, #dbb87a 50%, #c9a96e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-  .wuxia-panel-gold {
-    @apply bg-wuxia-panel/90 border border-wuxia-gold/40 rounded-lg shadow-gold;
-    background: linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.9) 100%);
-  }
+.ancient-btn {
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, rgba(250, 246, 240, 0.95) 0%, rgba(245, 239, 230, 0.98) 100%);
+  border: 2px solid #c9a96e;
+  border-radius: 0.5rem;
+  color: #c9a96e;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: 0 2px 10px rgba(42, 42, 42, 0.1);
+}
 
-  .gold-text {
-    @apply text-wuxia-gold font-wuxia;
-    text-shadow: 0 0 10px rgba(212, 168, 75, 0.5);
-  }
+.ancient-btn:hover {
+  background: linear-gradient(135deg, #c9a96e 0%, #dbb87a 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(201, 169, 110, 0.4);
+}
 
-  .gold-gradient-text {
-    @apply font-wuxia;
-    background: linear-gradient(135deg, #d4a84b 0%, #f5d56a 50%, #d4a84b 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: flow 4s ease-in-out infinite;
-  }
+.ancient-btn:active {
+  transform: scale(0.95);
+}
 
-  .gold-border {
-    @apply border border-wuxia-gold/50;
-    box-shadow: 0 0 20px rgba(212, 168, 75, 0.2), inset 0 0 20px rgba(212, 168, 75, 0.05);
-  }
+.stat-bar {
+  height: 0.5rem;
+  background: linear-gradient(135deg, rgba(245, 239, 230, 0.95) 0%, rgba(250, 246, 240, 0.98) 100%);
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid #b8a898;
+}
 
-  .wuxia-btn {
-    @apply px-4 py-2 bg-wuxia-panel-light/50 border border-wuxia-gold/40 rounded-lg 
-           text-wuxia-gold font-wuxia text-sm transition-all duration-300
-           hover:bg-wuxia-gold/20 hover:border-wuxia-gold hover:shadow-gold;
-  }
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: all 0.5s;
+  background: linear-gradient(90deg, #c9a96e 0%, #dbb87a 100%);
+  box-shadow: 0 0 10px rgba(201, 169, 110, 0.5);
+}
 
-  .wuxia-btn-primary {
-    @apply px-4 py-2 bg-gradient-to-r from-wuxia-gold/30 to-wuxia-gold-dark/20 
-           border border-wuxia-gold rounded-lg text-wuxia-gold font-wuxia 
-           hover:from-wuxia-gold/40 hover:to-wuxia-gold-dark/30 hover:shadow-gold-lg;
-  }
-
-  .stat-bar {
-    @apply h-2 bg-wuxia-dark rounded-full overflow-hidden;
-  }
-
-  .stat-bar-fill {
-    @apply h-full rounded-full transition-all duration-500;
-    background: linear-gradient(90deg, #d4a84b 0%, #f5d56a 100%);
-    box-shadow: 0 0 10px rgba(212, 168, 75, 0.5);
-  }
-
-  .item-rarity-common {
-    @apply border-gray-400;
-  }
-
-  .item-rarity-rare {
-    @apply border-blue-400;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
-  }
-
-  .item-rarity-epic {
-    @apply border-purple-400;
-    box-shadow: 0 0 10px rgba(147, 51, 234, 0.3);
-  }
-
-  .item-rarity-legendary {
-    @apply border-yellow-400;
-    box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
-  }
+.ink-brush-top {
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='10px' viewBox='0 0 100 10' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,10 Q25,0 50,10 T100,10' fill='none' stroke='%23c9a96e' stroke-width='2' opacity='0.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: 100% 10px;
 }
 
 @keyframes flow {
@@ -123,7 +121,7 @@ body {
 }
 
 @keyframes glow {
-  0%, 100% { opacity: 0.5; }
+  0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
 }
 
