@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,54 +11,144 @@
 }
 
 body {
-  font-family: 'STKaiti', 'KaiTi', serif;
-  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
+  font-family: 'Ma Shan Zheng', 'STKaiti', 'KaiTi', serif;
+  background: linear-gradient(180deg, #0a0a0f 0%, #0f0f1a 50%, #0a0a0f 100%);
   min-height: 100vh;
-  color: #e0e0e0;
+  color: #f0e6d2;
+  overflow-x: hidden;
+}
+
+.bg-ink-wash {
+  background: radial-gradient(ellipse at center, rgba(30, 30, 46, 0.85) 0%, rgba(10, 10, 15, 0.98) 100%);
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: rgba(42, 42, 58, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4af37;
-  border-radius: 3px;
+  background: linear-gradient(180deg, #d4a84b 0%, #b8943d 100%);
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #f4d03f;
+  background: linear-gradient(180deg, #f5d56a 0%, #d4a84b 100%);
 }
 
-@keyframes gradient-flow {
-  0% { background-position: 0% 50%; }
+@layer components {
+  .wuxia-panel {
+    @apply bg-wuxia-panel/80 backdrop-blur-sm border border-wuxia-border rounded-lg;
+    background: linear-gradient(145deg, rgba(18, 18, 26, 0.9) 0%, rgba(26, 26, 37, 0.8) 100%);
+  }
+
+  .wuxia-panel-gold {
+    @apply bg-wuxia-panel/90 border border-wuxia-gold/40 rounded-lg shadow-gold;
+    background: linear-gradient(145deg, rgba(18, 18, 26, 0.95) 0%, rgba(26, 26, 37, 0.9) 100%);
+  }
+
+  .gold-text {
+    @apply text-wuxia-gold font-wuxia;
+    text-shadow: 0 0 10px rgba(212, 168, 75, 0.5);
+  }
+
+  .gold-gradient-text {
+    @apply font-wuxia;
+    background: linear-gradient(135deg, #d4a84b 0%, #f5d56a 50%, #d4a84b 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: flow 4s ease-in-out infinite;
+  }
+
+  .gold-border {
+    @apply border border-wuxia-gold/50;
+    box-shadow: 0 0 20px rgba(212, 168, 75, 0.2), inset 0 0 20px rgba(212, 168, 75, 0.05);
+  }
+
+  .wuxia-btn {
+    @apply px-4 py-2 bg-wuxia-panel-light/50 border border-wuxia-gold/40 rounded-lg 
+           text-wuxia-gold font-wuxia text-sm transition-all duration-300
+           hover:bg-wuxia-gold/20 hover:border-wuxia-gold hover:shadow-gold;
+  }
+
+  .wuxia-btn-primary {
+    @apply px-4 py-2 bg-gradient-to-r from-wuxia-gold/30 to-wuxia-gold-dark/20 
+           border border-wuxia-gold rounded-lg text-wuxia-gold font-wuxia 
+           hover:from-wuxia-gold/40 hover:to-wuxia-gold-dark/30 hover:shadow-gold-lg;
+  }
+
+  .stat-bar {
+    @apply h-2 bg-wuxia-dark rounded-full overflow-hidden;
+  }
+
+  .stat-bar-fill {
+    @apply h-full rounded-full transition-all duration-500;
+    background: linear-gradient(90deg, #d4a84b 0%, #f5d56a 100%);
+    box-shadow: 0 0 10px rgba(212, 168, 75, 0.5);
+  }
+
+  .item-rarity-common {
+    @apply border-gray-400;
+  }
+
+  .item-rarity-rare {
+    @apply border-blue-400;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+  }
+
+  .item-rarity-epic {
+    @apply border-purple-400;
+    box-shadow: 0 0 10px rgba(147, 51, 234, 0.3);
+  }
+
+  .item-rarity-legendary {
+    @apply border-yellow-400;
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+  }
+}
+
+@keyframes flow {
+  0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
-.gradient-text {
-  background: linear-gradient(90deg, #d4af37, #f4d03f, #d4af37);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-flow 3s linear infinite;
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
-.panel-border {
-  border: 1px solid #2d2d2d;
-  box-shadow: inset 0 1px 0 rgba(212, 175, 55, 0.1);
+@keyframes glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
-.gold-border {
-  border: 1px solid #d4af37;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 
-.skill-icon {
-  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.3); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 1.5s ease-in-out infinite;
 }

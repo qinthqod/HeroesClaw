@@ -15,7 +15,7 @@ import NPCArchive from './components/NPCArchive';
 
 function App() {
   return (
-    <div className="min-h-screen bg-jianghu-darker">
+    <div className="min-h-screen bg-wuxia-darker bg-ink-wash pb-20">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 py-4">

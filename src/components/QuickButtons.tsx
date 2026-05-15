@@ -1,39 +1,28 @@
-import { Backpack, Shield, Users, BookOpen, Zap, Cat } from 'lucide-react';
-
-interface QuickButton {
-  id: string;
-  icon: typeof Backpack;
-  label: string;
-  badge?: number;
-}
-
 const QuickButtons = () => {
-  const buttons: QuickButton[] = [
-    { id: 'backpack', icon: Backpack, label: '背包' },
-    { id: 'equipment', icon: Shield, label: '装备' },
-    { id: 'companions', icon: Users, label: '伙伴' },
-    { id: 'skills', icon: BookOpen, label: '功法' },
-    { id: 'mount', icon: Zap, label: '坐骑' },
-    { id: 'pet', icon: Cat, label: '灵宠', badge: 1 },
+  const buttons = [
+    { id: 'backpack', icon: '🎒', label: '背包', badge: 3 },
+    { id: 'equipment', icon: '⚔', label: '装备' },
+    { id: 'partner', icon: '👥', label: '伙伴' },
+    { id: 'skill', icon: '📚', label: '功法' },
+    { id: 'mount', icon: '🐴', label: '坐骑' },
+    { id: 'pet', icon: '🐕', label: '灵宠' },
   ];
 
   return (
-    <div className="bg-jianghu-panel border border-jianghu-border rounded-lg p-3">
+    <div className="wuxia-panel p-3">
       <div className="flex items-center justify-around">
-        {buttons.map((button) => (
+        {buttons.map((btn) => (
           <button
-            key={button.id}
-            className="flex flex-col items-center gap-1 p-3 rounded-lg hover:bg-jianghu-dark/50 transition-colors relative"
+            key={btn.id}
+            className="flex flex-col items-center gap-1 px-4 py-2 rounded-lg bg-wuxia-panel-light/30 border border-wuxia-border/50 hover:border-wuxia-gold/50 hover:bg-wuxia-panel-light/50 transition-all duration-300 relative group"
           >
-            <div className="relative">
-              <button.icon className="w-7 h-7 text-jianghu-text-muted hover:text-jianghu-gold transition-colors" />
-              {button.badge && (
-                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
-                  {button.badge}
-                </span>
-              )}
-            </div>
-            <span className="text-jianghu-text-muted text-xs hover:text-jianghu-gold transition-colors">{button.label}</span>
+            {btn.badge && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-wuxia-crimson rounded-full flex items-center justify-center text-xs font-bold text-white">
+                {btn.badge}
+              </span>
+            )}
+            <span className="text-xl group-hover:scale-110 transition-transform">{btn.icon}</span>
+            <span className="text-wuxia-text-muted text-xs">{btn.label}</span>
           </button>
         ))}
       </div>

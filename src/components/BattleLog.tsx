@@ -1,33 +1,45 @@
-import { ScrollText } from 'lucide-react';
 import { useGameStore } from '../store/gameStore';
 
 const BattleLog = () => {
   const { logs } = useGameStore();
 
   const typeColors: Record<string, string> = {
-    info: 'text-blue-400',
-    success: 'text-green-400',
-    warning: 'text-yellow-400',
-    danger: 'text-red-400',
+    info: 'text-wuxia-text-muted',
+    success: 'text-wuxia-jade',
+    warning: 'text-wuxia-gold',
+    danger: 'text-wuxia-crimson',
+  };
+
+  const typeIcons: Record<string, string> = {
+    info: '📄',
+    success: '✓',
+    warning: '⚠',
+    danger: '⚔',
   };
 
   return (
-    <div className="bg-jianghu-panel border border-jianghu-border rounded-lg p-4">
+    <div className="wuxia-panel p-3">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-jianghu-gold font-bold flex items-center gap-2">
-          <ScrollText className="w-4 h-4" />
-          实时战斗日志
+        <h3 className="gold-text font-bold flex items-center gap-2">
+          <span className="text-lg">📜</span> 实时战斗日志
         </h3>
-        <div className="flex items-center gap-1">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-jianghu-text-muted text-xs">自动</span>
+        <div className="flex items-center gap-2">
+          <span className="text-wuxia-text-muted text-xs">自动</span>
+          <div className="w-9 h-4 bg-wuxia-jade/30 rounded-full relative">
+            <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-wuxia-jade rounded-full" />
+          </div>
         </div>
       </div>
-      <div className="h-48 overflow-y-auto space-y-1">
+
+      <div className="h-40 overflow-y-auto space-y-1.5 pr-1">
         {logs.map((log) => (
-          <div key={log.id} className="flex items-start gap-2 py-1 border-b border-jianghu-border/30 last:border-0">
-            <span className="text-jianghu-text-muted text-xs whitespace-nowrap">{log.time}</span>
-            <span className={`text-sm ${typeColors[log.type]}`}>{log.message}</span>
+          <div 
+            key={log.id}
+            className={`flex items-start gap-2 text-xs py-1 border-b border-wuxia-border/20 last:border-0 ${typeColors[log.type]}`}
+          >
+            <span className="text-wuxia-text-dark flex-shrink-0">{log.time}</span>
+            <span className="flex-shrink-0">{typeIcons[log.type]}</span>
+            <span className="break-all">{log.message}</span>
           </div>
         ))}
       </div>
